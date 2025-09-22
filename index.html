@@ -1,0 +1,2383 @@
+<!DOCTYPE html>
+<html lang="ha">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jami'ar IHAME - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Nunito:wght@400;700&family=Montserrat:wght@400;700&family=Playfair+Display:wght@400;700&family=Open+Sans:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Body and Page Styles */
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s, font-size 0.3s;
+            line-height: 1.6;
+        }
+
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        
+        body.wallpaper {
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .page {
+            width: 90%;
+            max-width: 500px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        #admin-page .page-content {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .page.active {
+            display: block;
+        }
+        
+        .page.admin-page {
+            max-width: 800px;
+        }
+        
+        .page.admin-page .page-content {
+            width: 100%;
+        }
+
+        body.dark-mode .page {
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 8px rgba(255,255,255,0.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Logo and Header */
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #006400;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .main-logo {
+            font-family: 'Roboto', sans-serif;
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #006400;
+            margin-bottom: 10px;
+        }
+
+        .ihame-meaning {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: -15px;
+            margin-bottom: 20px;
+        }
+
+        .social-media {
+            margin-top: 10px;
+        }
+        .social-media a {
+            margin: 0 10px;
+            font-size: 1.5em;
+            color: #006400;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-right p {
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        h2 {
+            color: #006400;
+            margin-bottom: 10px;
+        }
+
+        body.dark-mode h2 {
+            color: #4CAF50;
+        }
+
+        h3 {
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        body.dark-mode h3 {
+            color: #bbb;
+        }
+
+        /* Form Inputs and Buttons */
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        input[type="checkbox"] {
+            width: auto;
+        }
+
+        input:focus, select:focus {
+            border-color: #006400;
+            outline: none;
+        }
+
+        button {
+            background-color: #006400;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+        
+        button.delete-btn {
+            background-color: #d9534f;
+        }
+
+        button.delete-btn:hover {
+            background-color: #c9302c;
+        }
+
+        button.disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        a {
+            color: #006400;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding-right: 120px;
+        }
+        .input-group .input-suffix {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            color: #888;
+            pointer-events: none;
+            background: #f1f1f1;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        
+        .lang-select-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .lang-select-container label {
+            margin-right: 10px;
+        }
+
+        /* Dashboard Styling */
+        .dashboard-content {
+            text-align: left;
+        }
+
+        .info-card {
+            background-color: #e8f5e9;
+            border-left: 5px solid #006400;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        body.dark-mode .info-card {
+            background-color: #333;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .progress-bar-container {
+            background-color: #ccc;
+            border-radius: 5px;
+            margin-top: 10px;
+            height: 15px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #006400;
+            border-radius: 5px;
+            width: 0;
+            transition: width 0.5s ease-in-out;
+        }
+
+        .action-buttons button {
+            margin-bottom: 10px;
+        }
+
+        .back-btn, .profile-btn, .settings-btn, .admin-btn {
+            background: none;
+            border: none;
+            color: #006400;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .admin-btn {
+            display: none;
+        }
+
+        body.dark-mode .back-btn, body.dark-mode .profile-btn, body.dark-mode .settings-btn, body.dark-mode .admin-btn {
+            color: #4CAF50;
+        }
+
+        /* Modules & Courses Lists */
+        .course-item, .module-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .course-item:hover, .module-item:hover {
+            background-color: #f1f1f1;
+        }
+
+        body.dark-mode .course-item, body.dark-mode .module-item {
+            border-bottom: 1px solid #333;
+        }
+        body.dark-mode .course-item:hover, body.dark-mode .module-item:hover {
+            background-color: #222;
+        }
+
+        .learning-content {
+            text-align: left;
+            line-height: 1.6;
+        }
+        
+        .learning-content iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .navigation-buttons button {
+            width: 48%;
+        }
+
+        /* Settings Page */
+        .settings-content {
+            text-align: left;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .setting-item span.emoji {
+            margin-right: 10px;
+        }
+        
+        .nested-settings {
+            margin-left: 20px;
+            margin-top: 10px;
+            border-left: 2px solid #eee;
+            padding-left: 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+        
+        .nested-settings img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .nested-settings img:hover {
+            transform: scale(1.05);
+        }
+
+        .help-center {
+            margin-top: 20px;
+        }
+
+        /* Profile Page */
+        .profile-content {
+            text-align: left;
+        }
+        .profile-content input, .profile-content p {
+            margin-bottom: 10px;
+        }
+
+        #signature-image {
+            width: 150px;
+            height: auto;
+            margin-top: 20px;
+        }
+
+        .module-item.locked {
+            background-color: #ddd;
+            color: #888;
+            cursor: not-allowed;
+        }
+        #profile-pic-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 2px solid #006400;
+        }
+
+        .edit-fields input {
+            margin-bottom: 10px;
+        }
+        
+        .quiz-option {
+            display: block;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .quiz-option:hover {
+            background-color: #f1f1f1;
+        }
+        .quiz-option.selected {
+            background-color: #e8f5e9;
+            border-color: #006400;
+        }
+        .quiz-option.correct {
+            background-color: #a5d6a7;
+            border-color: #2e7d32;
+        }
+        .quiz-option.incorrect {
+            background-color: #ef9a9a;
+            border-color: #c62828;
+        }
+        .quiz-result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        #font-style-select {
+            font-family: 'Nunito', sans-serif;
+        }
+        #font-style-select option[value="Nunito, sans-serif"] { font-family: 'Nunito', sans-serif; }
+        #font-style-select option[value="Roboto, sans-serif"] { font-family: 'Roboto', sans-serif; }
+        #font-style-select option[value="Montserrat, sans-serif"] { font-family: 'Montserrat', sans-serif; }
+        #font-style-select option[value="Playfair Display, serif"] { font-family: 'Playfair Display', serif; }
+        #font-style-select option[value="Open Sans, sans-serif"] { font-family: 'Open Sans', sans-serif; }
+        #font-style-select option[value="Poppins, sans-serif"] { font-family: 'Poppins', sans-serif; }
+        
+        .brightness-level-input {
+            width: 150px;
+        }
+        
+        .points-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .points-display {
+            font-weight: bold;
+            color: #006400;
+        }
+        
+        body.dark-mode .points-display {
+            color: #4CAF50;
+        }
+        
+        .progress-summary {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.1em;
+        }
+        
+        .module-progress {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .module-progress-bar {
+            flex-grow: 1;
+            height: 8px;
+            background: #ddd;
+            border-radius: 4px;
+            margin: 0 10px;
+            overflow: hidden;
+        }
+        
+        .module-progress-fill {
+            height: 100%;
+            background: #006400;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        body.dark-mode .module-progress-fill {
+            background: #4CAF50;
+        }
+        
+        .module-progress-text {
+            font-size: 0.9em;
+            min-width: 60px;
+            text-align: right;
+        }
+        .payment-info {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border: 1px solid #ffeeba;
+            border-radius: 5px;
+            margin-top: 15px;
+            text-align: left;
+        }
+        .payment-info a {
+            color: #856404;
+        }
+        .module-title-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .module-checkmark {
+            color: #006400;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        .phone-input-container {
+            display: flex;
+            gap: 10px;
+        }
+        #country-code {
+            width: 30%;
+        }
+        #reg-phone {
+            width: 70%;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            justify-content: flex-start;
+        }
+        .remember-me input {
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .admin-table th, .admin-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .admin-table th {
+            background-color: #f2f2f2;
+        }
+        body.dark-mode .admin-table th {
+            background-color: #333;
+        }
+        .admin-user-details img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        
+        .student-details {
+            text-align: left;
+            padding-top: 10px;
+        }
+        
+        .admin-stats {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .admin-stat-card {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            width: 45%;
+        }
+        
+        .admin-stat-card h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        
+        .admin-stat-card p {
+            margin: 5px 0 0;
+            font-size: 2em;
+            font-weight: bold;
+            color: #006400;
+        }
+        
+        .edit-profile-btn, .save-profile-btn {
+            margin-top: 10px;
+        }
+        
+        .profile-edit-fields {
+            display: none;
+        }
+        .profile-display-fields {
+            display: block;
+        }
+        .profile-edit-fields.active {
+            display: block;
+        }
+        .profile-display-fields.active {
+            display: none;
+        }
+        
+        .landing-page button {
+            margin: 10px 0;
+        }
+        
+        .pending-registrations {
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .pending-user {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .pending-user-info {
+            flex-grow: 1;
+        }
+        
+        .payment-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .payment-btn {
+            padding: 5px 10px;
+            font-size: 0.9em;
+        }
+        
+        .reg-number-list {
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .dept-reg-numbers {
+            margin-bottom: 20px;
+        }
+        
+        .reg-number-item {
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .copy-btn {
+            background-color: #006400;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .whatsapp-btn {
+            background-color: #25D366;
+            margin-top: 10px;
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+        }
+        
+        .quiz-management {
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .quiz-form {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-form input, .quiz-form select {
+            margin-bottom: 10px;
+        }
+        
+        .option-input {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .option-input input {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        
+        .notification-badge {
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.8em;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        
+        .notification-container {
+            position: relative;
+        }
+        
+        .notification-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+        
+        .notification-time {
+            font-size: 0.8em;
+            color: #888;
+        }
+        
+        .activity-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .active-now {
+            background-color: #4CAF50;
+        }
+        
+        .inactive {
+            background-color: #ccc;
+        }
+        
+        /* NEW STYLES FOR THE UPDATED FEATURES */
+        
+        /* Certificate Page Improvements */
+        #certificate-content {
+            border: 15px solid #006400;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .certificate-logo {
+            width: 120px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        
+        .certificate-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 20px;
+            border-bottom: 2px solid #006400;
+            padding-bottom: 20px;
+        }
+        
+        .certificate-body {
+            padding: 20px;
+            text-align: center;
+            line-height: 1.8;
+        }
+        
+        .certificate-footer {
+            margin-top: 40px;
+            text-align: right;
+            padding-right: 60px;
+        }
+        
+        .signature-area {
+            border-top: 1px solid #000;
+            width: 250px;
+            margin-left: auto;
+            padding-top: 5px;
+            text-align: center;
+        }
+        
+        /* Department Chat Styles */
+        .chat-container {
+            height: 400px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            padding: 10px;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+        
+        .send-chat-btn {
+            width: auto;
+            padding: 10px 20px;
+            border-radius: 20px;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        
+        .my-message {
+            background-color: #DCF8C6;
+            margin-left: auto;
+            text-align: right;
+        }
+        
+        .their-message {
+            background-color: #FFFFFF;
+            margin-right: auto;
+            border: 1px solid #EEE;
+        }
+        
+        .message-sender {
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .message-time {
+            font-size: 0.7em;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        /* Module Selection Page */
+        .module-selection-container {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        
+        .module-checkbox {
+            margin-right: 10px;
+        }
+        
+        .module-select-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Admin Student Photo Size Fix */
+        #student-pic-display {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        
+        /* WhatsApp Registration Button */
+        .whatsapp-reg-btn {
+            background-color: #25D366;
+            margin-top: 10px;
+        }
+        
+        .whatsapp-reg-btn:hover {
+            background-color: #128C7E;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="landing-page" class="page active">
+        <div class="logo-container">
+            <img class="logo-image" src="https://i.ibb.co/sdnqkPnP/Royal-Blue-and-Gold-University-Logo-20250822-190530-0000.png" alt="University Logo">
+            <h1 class="main-logo">JAMI'AR IHAME</h1>
+            <p class="ihame-meaning">(Ingantacciyar Hausa A Maimakon Englishi)</p>
+        </div>
+        <p data-lang="welcome-text">Wannan itace Dandamali na farka Dake koyar da ilimummuka na zamani masu zurfin da Hausa bayan kammala karatu sai aba dalibi takardar kammala karatu.</p>
+        <div class="landing-page-buttons">
+            <button onclick="showPage('register-page')" data-lang="register-btn">Shiga yin Register</button>
+            <button onclick="showPage('login-page')" data-lang="login-btn">Shiga</button>
+            <a href="#" onclick="showPage('admin-login-page')" data-lang="admin-login-prompt">Shiga a matsayin Admin</a>
+        </div>
+        <div class="lang-select-container">
+            <label for="lang-select">Harshe:</label>
+            <select id="lang-select" onchange="changeLanguage(this.value)">
+                <option value="ha" selected>Hausa</option>
+                <option value="en">English</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="login-page" class="page">
+        <header>
+            <button class="back-btn" onclick="showPage('landing-page')">←</button>
+            <h2 data-lang="login-title">Shiga Asusu</h2>
+        </header>
+        <input type="text" id="login-regno" data-lang="input-regno" placeholder="Lambar Rajista (Reg. No.)">
+        <input type="password" id="login-password" data-lang="input-password" placeholder="Kalmar Sirri">
+        <div class="remember-me">
+            <input type="checkbox" id="remember-me-checkbox">
+            <label for="remember-me-checkbox" data-lang="remember-me">Tuna ni a wannan na'ura</label>
+        </div>
+        <button onclick="loginUser()" data-lang="login-btn">Shiga</button>
+        <p data-lang="register-prompt">Baka da asusu? <a href="#" onclick="showPage('register-page')">Yi Rajista</a></p>
+    </div>
+    
+    <div id="register-page" class="page">
+        <header>
+            <button class="back-btn" onclick="showPage('landing-page')">←</button>
+            <h2 data-lang="register-title">Barka da zuwa JAMI'AR IHAME</h2>
+        </header>
+        <p data-lang="register-subtitle">Yi Rajista don fara karatu</p>
+        <input type="text" id="reg-name" data-lang="input-name" placeholder="Cikakken Sunan ka">
+        <input type="email" id="reg-email" data-lang="input-email" placeholder="Saka Email">
+        <input type="password" id="reg-password" data-lang="input-password" placeholder="Kalmar sirri">
+        <select id="reg-faculty" onchange="populateDepartments()" data-lang="select-faculty">
+            <option value="">Zaɓi Faculty</option>
+        </select>
+        <select id="reg-department" data-lang="select-dept" disabled>
+            <option value="">Zaɓi Department</option>
+        </select>
+        <div class="payment-info">
+            <p data-lang="payment-info">Bayan rajista, za a ba ku cikakkun bayanan biyan kuɗi domin samun lambar rajista.</p>
+        </div>
+        <button onclick="registerUser()" data-lang="register-btn">Shiga yin Register</button>
+        <button class="whatsapp-reg-btn" onclick="openWhatsApp()" data-lang="whatsapp-btn">Samun Lambar register</button>
+    </div>
+
+    <div id="admin-login-page" class="page">
+        <header>
+            <button class="back-btn" onclick="showPage('landing-page')">←</button>
+            <h2 data-lang="admin-login-title">Admin Login</h2>
+        </header>
+        <input type="text" id="admin-email" data-lang="input-email" placeholder="Email">
+        <input type="password" id="admin-password" data-lang="input-password" placeholder="Password">
+        <button onclick="loginAdmin()" data-lang="login-btn">Shiga</button>
+    </div>
+
+    <div id="dashboard-page" class="page">
+        <header>
+            <img class="logo-image" src="https://i.ibb.co/sdnqkPnP/Royal-Blue-and-Gold-University-Logo-20250822-190530-0000.png" alt="University Logo">
+            <div class="header-right">
+                <div class="notification-container">
+                    <button class="profile-btn" onclick="showPage('profile-page')">👤</button>
+                    <span id="notification-badge" class="notification-badge" style="display: none;">0</span>
+                </div>
+                <button class="settings-btn" onclick="showPage('settings-page')">⚙️</button>
+                <button class="admin-btn" onclick="showPage('admin-page')" data-lang="admin-btn">Admin Panel</button>
+            </div>
+        </header>
+        <div class="dashboard-content">
+            <p id="welcome-message" style="text-align: center; font-size: 1.2em; font-weight: bold;"></p>
+            <div class="info-card">
+                <h3 data-lang="selected-course-title">Darasi da ka zaɓa</h3>
+                <p id="selected-course-name"></p>
+                <div class="points-container">
+                    <div>
+                        <span data-lang="percentage-label">Kashi:</span>
+                        <span id="percentage-display" class="points-display">0%</span>
+                    </div>
+                </div>
+                <div class="progress-bar-container">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+                <p id="progress-text" data-lang="progress-text">An kammala: 0%</p>
+            </div>
+            <div class="action-buttons">
+                <button onclick="showPage('courses-list-page')" data-lang="courses-list-btn">Darussa</button>
+                <button id="start-learning-btn" onclick="showPage('level-select-page')" data-lang="start-learning-btn">Fara Karatu</button>
+                <button id="certificate-btn" class="disabled" onclick="showPage('certificate-page')" data-lang="certificate-btn">Shaidar Kammalawa</button>
+                <button id="daily-quiz-btn" onclick="loadDailyQuiz(); showPage('daily-quiz-page')" data-lang="daily-quiz-btn">Jarabawa na Kullum</button>
+                <button onclick="showPage('department-chat-page')">Tattaunawar Department</button>
+            </div>
+        </div>
+        <div class="help-center">
+            <a href="mailto:abduldocter1@gmail.com" data-lang="help-center-text">Help Center</a> | <a href="#" onclick="showPage('help-center-page')">Socials</a>
+        </div>
+    </div>
+    
+    <div id="level-select-page" class="page">
+        <header>
+            <button class="back-btn" onclick="showPage('dashboard-page')">←</button>
+            <h2>Zaɓi Level da Semester</h2>
+        </header>
+        <select id="level-select">
+            <option value="">Zaɓi Level</option>
+            <option value="100">100 Level</option>
+            <option value="200">200 Level</option>
+        </select>
+        <select id="semester-select">
+            <option value="">Zaɓi Semester</option>
+            <option value="semester1">Semester 1</option>
+            <option value="semester2">Semester 2</option>
+        </select>
+        <button onclick="loadModuleSelection()" data-lang="continue-btn">Ci gaba</button>
+    </div>
+    
+    <div id="module-select-page" class="page">
+        <header>
+            <button class="back-btn" onclick="showPage('level-select-page')">←</button>
+            <h2 id="module-select-title">Zaɓi Modules</h2>
+        </header>
+        <div class="module-selection-container">
+            <div id="module-selection-list"></div>
+        </div>
+        <button onclick="saveSelectedModules()" data-lang="save-modules-btn">Ajiye zaɓin</button>
+    </div>
+    
+    <div id="profile-page" class="page">
+        <header>
+            <button class="back-btn" onclick="showPage('dashboard-page')">←</button>
+            <h2 data-lang="profile-title">Bayanan ka</h2>
+        </header>
+        <div class="profile-content">
+            <img id="profile-pic-preview" src="" alt="Profile Picture">
+            <input type="file" id="profile-pic-input" accept="image/*" style="display:none;" onchange="previewProfilePic(event)">
+            <button onclick="document.getElementById('profile-pic-input').click()">Zaɓi Hoto</button>
+            
+            <div id="profile-display-fields" class="profile-display-fields">
+                <p><strong data-lang="profile-regno-label">Reg. No:</strong> <span id="profile-regno-display"></span></p>
+                <p><strong data-lang="profile-name-label">Suna:</strong> <span id="profile-name-display"></span></p>
+                <p><strong data-lang="profile-email-label">Email:</strong> <span id="profile-email-display"></span></p>
+                <p><strong data-lang="profile-faculty-label">Faculty:</strong> <span id="profile-faculty-display"></span></p>
+                <p><strong data-lang="profile-department-label">Department:</strong> <span id="profile-department-display"></span></p>
+                <p><strong data-lang="profile-level-label">Level:</strong> <span id="profile-level-display"></span></p>
+                <button class="edit-profile-btn" onclick="toggleEditMode()" data-lang="edit-profile-btn">Gyara Bayanai</button>
+            </div>
+            
+            <div id="profile-edit-fields" class="profile-edit-fields">
+                <input type="text" id="edit-name" data-lang="input-name" placeholder="Cikakken Sunan ka">
+                <button class="save-profile-btn" onclick="saveProfile()" data-lang="save-profile-btn">Ajiye Canje-Canje</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="admin-page" class="page admin-page">
+        <header>
+            <button class="back-btn" onclick="showPage('dashboard-page')">←</button>
+            <h2 data-lang="admin-title">Admin Dashboard</h2>
+            <button onclick="logout()">Fita</button>
+        </header>
+        <div class="page-content">
+            <div class="admin-stats">
+                <div class="admin-stat-card">
+                    <h3>Adadin Dalibai</h3>
+                    <p id="total-students">0</p>
+                </div>
+                <div class="admin-stat-card">
+                    <h3 id="department-students-title">Dalibai a Department</h3>
+                    <p id="department-students">0</p>
+                </div>
+            </div>
+            
+            <h3 data-lang="student-list-title">Jerin Dalibai</h3>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th data-lang="table-header-name">Suna</th>
+                        <th data-lang="table-header-regno">Lambar Rajista</th>
+                        <th data-lang="table-header-action">Aiki</th>
+                    </tr>
+                </thead>
+                <tbody id="student-list">
+                </tbody>
+            </table>
+            
+            <h3>Pending Registrations (Masu jiran biya)</h3>
+            <div id="pending-registrations" class="pending-registrations">
+            </div>
+            
+            <h3>Quiz Management (Gudanar da Jarabawowi)</h3>
+            <div class="quiz-management">
+                <div class="quiz-form">
+                    <h4>Ƙara Sabuwar Tambaya</h4>
+                    <select id="quiz-dept">
+                        <option value="">Zaɓi Department</option>
+                    </select>
+                    <input type="text" id="quiz-question" placeholder="Tambaya">
+                    <div id="quiz-options">
+                        <div class="option-input">
+                            <input type="text" placeholder="Zaɓi 1">
+                            <input type="radio" name="correct-answer" value="0">
+                        </div>
+                        <div class="option-input">
+                            <input type="text" placeholder="Zaɓi 2">
+                            <input type="radio" name="correct-answer" value="1">
+                        </div>
+                        <div class="option-input">
+                            <input type="text" placeholder="Zaɓi 3">
+                            <input type="radio" name="correct-answer" value="2">
+                        </div>
+                        <div class="option-input">
+                            <input type="text" placeholder="Zaɓi 4">
+                            <input type="radio" name="correct-answer" value="3">
+                        </div>
+                    </div>
+                    <button onclick="addQuizQuestion()">Ƙara Tambaya</button>
+                </div>
+            </div>
+            
+            <h3>Registration Numbers by Department</h3>
+            <div class="reg-number-list">
+                <select id="dept-select" onchange="loadRegNumbersByDept()">
+                    <option value="">Zaɓi Department</option>
+                </select>
+                <div id="reg-numbers-container"></div>
+            </div>
+            
+            <h3>Module Management (Gudanar da Modules)</h3>
+            <div>
+                <button onclick="showPage('module-management-page')">Duba/Edit Modules</button>
+            </div>
+            
+            <h3>Student Notifications (Sanarwa ga Dalibai)</h3>
+            <div>
+                <input type="text" id="notification-message" placeholder="Saƙon sanarwa">
+                <button onclick="sendNotificationToAll()">Aika wa Duka Dalibai</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="student-details-page" class="page">
+        <header>
+            <button class="back-btn" onclick="showPage('admin-page')">←</button>
+            <h2 data-lang="student-details-title">Bayanan Dalibi</h2>
+        </header>
+        <div class="student-details-content">
+            <img id="student-pic-display" src="" alt="Student Picture">
+            <div class="student-details">
+                <p><strong data-lang="profile-regno-label">Reg. No:</strong> <span id="student-regno-display"></span></p>
+                <p><strong data-lang="profile-name-label">Suna:</strong> <span id="student-name-display"></span></p>
+                <p><strong data-lang="profile-email-label">Email:</strong> <span id="student-email-display"></span></p>
+                <p><strong data-lang="profile-faculty-label">Faculty:</strong> <span id="student-faculty-display"></span></p>
+                <p><strong data-lang="profile-department-label">Department:</strong> <span id="student-department-display"></span></p>
+                <p><strong data-lang="profile-level-label">Level:</strong> <span id="student-level-display"></span></p>
+                <p><strong>Hali:</strong> <span id="student-status-display"><span class="activity-indicator active-now"></span> Active</span></p>
+                <p><strong>Kashi na Kammalawa:</strong> <span id="student-progress-display">0%</span></p>
+            </div>
+            <div>
+                <h3>Aika Sanarwa</h3>
+                <input type="text" id="student-notification-message" placeholder="Saƙon sanarwa">
+                <button onclick="sendNotificationToStudent()">Aika Sanarwa</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="courses-list-page" class="page">
+        <header>
+            <button class="back-btn" onclick="showPage('dashboard-page')">←</button>
+            <h2 data-lang="all-courses-title">Dukkan Darussa</h2>
+        </header>
+        <div id="courses-list-content">
+            </div>
+    </div>
+
+    <div id="modules-page" class="page">
+        <header>
+            <button class="back-btn" onclick="showPage('dashboard-page')">←</button>
+            <h2 id="modules-page-title" data-lang="modules-page-title">Modules na Darasi</h2>
+            <div class="points-container">
+                <div>
+                    <span data-lang="percentage-label">Kashi:</span>
+                    <span id="module-percentage-display" class="points-display">0%</span>
+                </div>
+            </div>
+        </header>
+        <div class="progress-summary">
+            <p data-lang="completed-modules-label">Modules da aka kammala:</p>
+            <p id="completed-modules-count">0</p>
+        </div>
+        <div id="modules-list">
+            <hr>
+        </div>
+    </div>
+
+    <div id="learning-page" class="page">
+        <header>
+            <button class="back-btn" onclick="showPage('modules-page')">←</button>
+            <h2 id="learning-page-title"></h2>
+            <div class="module-progress">
+                <div class="module-progress-bar">
+                    <div id="module-progress-fill" class="module-progress-fill"></div>
+                </div>
+                <span class="module-progress-text" id="current-module-percentage">0%</span>
+            </div>
+        </header>
+        <div class="learning-content" id="module-content">
+            </div>
+        <div class="navigation-buttons">
+            <button id="prev-lesson-btn" class="disabled" data-lang="prev-btn">Baya</button>
+            <button id="next-lesson-btn" data-lang="next-btn">Gaba</button>
+        </div>
+    </div>
+
+    <div id="daily-quiz-page" class="page">
+        <header>
+            <button class="back-btn" onclick="showPage('dashboard-page')">←</button>
+            <h2 data-lang="daily-quiz-title">Jarabawa na Kullum</h2>
+        </header>
+        <div id="daily-quiz-content">
+            </div>
+    </div>
+
+    <div id="certificate-page" class="page">
+        <header>
+            <button class="back-btn" onclick="showPage('dashboard-page')">←</button>
+            <h2 data-lang="certificate-title">Shaidar Kammalawa</h2>
+        </header>
+        <div id="certificate-content">
+            <img src="https://i.ibb.co/sdnqkPnP/Royal-Blue-and-Gold-University-Logo-20250822-190530-0000.png" alt="University Logo" class="certificate-logo">
+            <div class="certificate-header">
+                <h1>JAMI'AR IHAME</h1>
+                <h3>(Ingantacciyar Hausa A Maimakon Englishi)</h3>
+                <p><strong>Lambar Rijista:</strong> <span id="certificate-regno"></span></p>
+            </div>
+            
+            <div class="certificate-body">
+                <h3>BAYANIN SAKAMAKO</h3>
+                <p>Wannan shaidar ta tabbatar da cewa</p>
+                <h2 id="certificate-student-name"></h2>
+                <p>Ya kammala ingantaccen shirin karatu kuma ya ci nasara a jarabawar da aka kayyade, an ba shi, bisa ikon Hukumar Ilimi,</p>
+                <p><strong>CERTIFICATE</strong> na Jami'ar Ihame a cikin</p>
+                <h3 id="certificate-department"></h3>
+                <p>A ranar <span id="certificate-date"></span>.</p>
+            </div>
+            
+            <div class="certificate-footer">
+                <div class="signature-area">
+                    <p>Sa hannun shugaban Jami'a</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="department-chat-page" class="page">
+        <header>
+            <button class="back-btn" onclick="showPage('dashboard-page')">←</button>
+            <h2>Tattaunawar Department</h2>
+        </header>
+        <div class="chat-container">
+            <div class="chat-messages" id="department-chat-messages">
+                <p>Zaɓi department daga ƙasa don fara tattaunawa</p>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="chat-message-input" placeholder="Rubuta saƙonka anan...">
+                <button class="send-chat-btn" onclick="sendChatMessage()">Aika</button>
+            </div>
+        </div>
+        <select id="department-chat-select" onchange="loadDepartmentChat()">
+            <option value="">Zaɓi Department</option>
+        </select>
+    </div>
+
+    <div id="settings-page" class="page">
+        <header>
+            <button class="back-btn" onclick="showPage('dashboard-page')">←</button>
+            <h2 data-lang="settings-title">Saituna</h2>
+        </header>
+        <div class="settings-content">
+            <div class="setting-item" onclick="showPage('display-page')">
+                <span class="emoji">📱</span> <span data-lang="display-title">Display</span>
+            </div>
+            <div class="setting-item">
+                <span class="emoji">🌐</span> <span data-lang="language-label">Harshe</span>
+                <button onclick="showPage('language-page')" data-lang="change-btn">Canza</button>
+            </div>
+            <div class="setting-item">
+                <span class="emoji">⏰</span> <span data-lang="daily-reminder-label">Tunatarwa ta yau da kullun</span>
+                <button onclick="setDailyReminder()" data-lang="set-reminder-btn">Saita</button>
+            </div>
+            <div class="setting-item">
+                <span class="emoji">🔗</span> <span data-lang="share-link-label">Raba dandalin IHAME</span>
+                <button onclick="shareLink()" data-lang="share-btn">Raba</button>
+            </div>
+            <div class="setting-item">
+                <span class="emoji">📜</span> <span data-lang="privacy-policy-label">Dokokin Sirri</span>
+                <button onclick="showPrivacyPolicy()" data-lang="view-btn">Duba</button>
+            </div>
+            <div class="setting-item">
+                <span class="emoji">🗑️</span> <span data-lang="delete-account-label">Share Account</span>
+                <button onclick="deleteAccount()" data-lang="delete-btn">Share</button>
+            </div>
+            <button onclick="logout()"><span class="emoji">🚪</span> <span data-lang="logout-btn">Fita</span></button>
+        </div>
+    </div>
+
+    <div id="language-page" class="page">
+        <header>
+            <button class="back-btn" onclick="showPage('settings-page')">←</button>
+            <h2 data-lang="language-label">Canja Harshe</h2>
+        </header>
+        <div class="settings-content">
+            <div class="setting-item" onclick="changeLanguage('ha')">
+                <span>Hausa</span>
+                <span>🇳🇬</span>
+            </div>
+            <div class="setting-item" onclick="changeLanguage('en')">
+                <span>English</span>
+                <span>🇬🇧</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="display-page" class="page">
+        <header>
+            <button class="back-btn" onclick="showPage('settings-page')">←</button>
+            <h2 data-lang="display-title">Display</h2>
+        </header>
+        <div class="settings-content">
+            <div class="setting-item">
+                <label for="font-size-select" data-lang="font-size-label">Girman Rubutu:</label>
+                <select id="font-size-select">
+                    <option value="16px">Normal</option>
+                    <option value="18px">Medium</option>
+                    <option value="20px">Large</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label for="font-style-select" data-lang="font-style-label">Nau'in Rubutu:</label>
+                <select id="font-style-select">
+                    <option value="Nunito, sans-serif">Nunito</option>
+                    <option value="Roboto, sans-serif">Roboto</option>
+                    <option value="Montserrat, sans-serif">Montserrat</option>
+                    <option value="Playfair Display, serif">Playfair Display</option>
+                    <option value="Open Sans, sans-serif">Open Sans</option>
+                    <option value="Poppins, sans-serif">Poppins</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label for="brightness-slider" data-lang="brightness-level-label">Hasken Allo:</label>
+                <input type="range" id="brightness-slider" min="0.1" max="1" step="0.1" value="1">
+            </div>
+            <div class="setting-item">
+                <label for="dark-mode-toggle"><span class="emoji">💡</span> <span data-lang="dark-mode-label">Yanayin Gani (Dark Mode):</span></label>
+                <input type="checkbox" id="dark-mode-toggle">
+            </div>
+            <div class="setting-item">
+                <span class="emoji">🖼️</span> <span data-lang="wallpaper-label">Hoton Bango</span>
+                <button onclick="showWallpaperOptions()" data-lang="change-btn">Canza</button>
+            </div>
+            <div id="wallpaper-options" class="nested-settings" style="display:none;">
+                <img src="https://i.ibb.co/0RbrwmSk/house-163526-1280.jpg" onclick="setWallpaper('https://i.ibb.co/0RbrwmSk/house-163526-1280.jpg')">
+                <img src="https://i.ibb.co/wrz8dKYH/garden-with-fance-flowers-33070-4129.jpg" onclick="setWallpaper('https://i.ibb.co/wrz8dKYH/garden-with-fance-flowers-33070-4129.jpg')">
+                <img src="https://i.ibb.co/spkrW0mP/cartoon-boys-characters-playing-ball-with-their-dogs-2-R3-YRHG.jpg" onclick="setWallpaper('https://i.ibb.co/spkrW0mP/cartoon-boys-characters-playing-ball-with-their-dogs-2-R3-YRHG.jpg')">
+                <img src="https://i.ibb.co/849CmTRD/makaranta.jpg" onclick="setWallpaper('https://i.ibb.co/849CmTRD/makaranta.jpg')">
+                <img src="https://i.ibb.co/qYhvLJD8/ai-generated-8862065-1280.jpg" onclick="setWallpaper('https://i.ibb.co/qYhvLJD8/ai-generated-8862065-1280.jpg')">
+            </div>
+        </div>
+    </div>
+
+    <div id="notifications-page" class="page">
+        <header>
+            <button class="back-btn" onclick="showPage('dashboard-page')">←</button>
+            <h2>Sanarwai</h2>
+        </header>
+        <div id="notifications-list">
+        </div>
+    </div>
+
+    <div id="module-management-page" class="page admin-page">
+        <header>
+            <button class="back-btn" onclick="showPage('admin-page')">←</button>
+            <h2>Module Management</h2>
+        </header>
+        <div>
+            <h3>Add New Module</h3>
+            <select id="module-level">
+                <option value="100">100 Level</option>
+                <option value="200">200 Level</option>
+            </select>
+            <select id="module-semester">
+                <option value="semester1">Semester 1</option>
+                <option value="semester2">Semester 2</option>
+            </select>
+            <input type="text" id="module-title" placeholder="Module Title">
+            <textarea id="module-content-text" placeholder="Module Content" rows="5"></textarea>
+            <button onclick="addNewModule()">Ƙara Module</button>
+            
+            <h3>Current Modules</h3>
+            <div id="modules-management-list">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const pages = document.querySelectorAll('.page');
+        const welcomeMessage = document.getElementById('welcome-message');
+        const selectedCourseName = document.getElementById('selected-course-name');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const modulesList = document.getElementById('modules-list');
+        const learningPageTitle = document.getElementById('learning-page-title');
+        const moduleContent = document.getElementById('module-content');
+        const certificateBtn = document.getElementById('certificate-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const downloadCertificateSection = document.getElementById('download-certificate-section');
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const brightnessSlider = document.getElementById('brightness-slider');
+        const body = document.body;
+        const dailyQuizContent = document.getElementById('daily-quiz-content');
+        const fontSizeSelect = document.getElementById('font-size-select');
+        const fontStyleSelect = document.getElementById('font-style-select');
+
+        const profileRegnoDisplay = document.getElementById('profile-regno-display');
+        const profileNameDisplay = document.getElementById('profile-name-display');
+        const profileEmailDisplay = document.getElementById('profile-email-display');
+        const profileFacultyDisplay = document.getElementById('profile-faculty-display');
+        const profileDepartmentDisplay = document.getElementById('profile-department-display');
+        const profileLevelDisplay = document.getElementById('profile-level-display');
+        const profilePicPreview = document.getElementById('profile-pic-preview');
+        
+        const modulePercentageDisplay = document.getElementById('module-percentage-display');
+        const completedModulesCount = document.getElementById('completed-modules-count');
+        const currentModulePercentage = document.getElementById('current-module-percentage');
+        const moduleProgressFill = document.getElementById('module-progress-fill');
+        
+        const adminBtn = document.querySelector('.admin-btn');
+        const studentListTable = document.getElementById('student-list');
+        const studentDetailsPage = document.getElementById('student-details-page');
+        const studentPicDisplay = document.getElementById('student-pic-display');
+        const studentRegnoDisplay = document.getElementById('student-regno-display');
+        const studentNameDisplay = document.getElementById('student-name-display');
+        const studentEmailDisplay = document.getElementById('student-email-display');
+        const studentFacultyDisplay = document.getElementById('student-faculty-display');
+        const studentDepartmentDisplay = document.getElementById('student-department-display');
+        const studentLevelDisplay = document.getElementById('student-level-display');
+        const studentStatusDisplay = document.getElementById('student-status-display');
+        const studentProgressDisplay = document.getElementById('student-progress-display');
+        const totalStudentsEl = document.getElementById('total-students');
+        const departmentStudentsEl = document.getElementById('department-students');
+        const departmentStudentsTitleEl = document.getElementById('department-students-title');
+        const certificateStatusText = document.getElementById('certificate-status-text');
+        const pendingRegistrationsEl = document.getElementById('pending-registrations');
+        const deptSelectEl = document.getElementById('dept-select');
+        const regNumbersContainerEl = document.getElementById('reg-numbers-container');
+        const notificationBadge = document.getElementById('notification-badge');
+        const notificationsList = document.getElementById('notifications-list');
+        const quizDeptSelect = document.getElementById('quiz-dept');
+        const modulesManagementList = document.getElementById('modules-management-list');
+        const departmentChatSelect = document.getElementById('department-chat-select');
+        const departmentChatMessages = document.getElementById('department-chat-messages');
+        const chatMessageInput = document.getElementById('chat-message-input');
+        const moduleSelectionList = document.getElementById('module-selection-list');
+        const moduleSelectTitle = document.getElementById('module-select-title');
+
+        let currentUser = null;
+        let currentLang = 'ha';
+        let allUsers = JSON.parse(localStorage.getItem('allUsers')) || [];
+        let pendingRegistrations = JSON.parse(localStorage.getItem('pendingRegistrations')) || [];
+        let notifications = JSON.parse(localStorage.getItem('notifications')) || {};
+        let userActivity = JSON.parse(localStorage.getItem('userActivity')) || {};
+        let departmentQuizzes = JSON.parse(localStorage.getItem('departmentQuizzes')) || {};
+        let departmentChats = JSON.parse(localStorage.getItem('departmentChats')) || {};
+        let selectedLevel = '';
+        let selectedSemester = '';
+
+        const MODULES_PER_SEMESTER_1 = 15;
+        const MODULES_PER_SEMESTER_2 = 13;
+        const TOTAL_MODULES_PER_LEVEL = MODULES_PER_SEMESTER_1 + MODULES_PER_SEMESTER_2;
+        const TOTAL_COURSE_MODULES = TOTAL_MODULES_PER_LEVEL * 2; 
+
+        const ADMIN_CREDENTIALS = {
+            'abduldocter1@gmail.com': 'Docter1#',
+            'drmuslaf@gmail.com': 'Docter1@',
+            'sheihu001@gmail.com': 'Docter1?',
+            'hadynta001@gmail.com': 'Docter1+',
+            'angonbushra001@gmail.com': 'Docter1&',
+            'hibbatty001@gmail.com': 'Docter1$'
+        };
+        
+        const departmentsShortcuts = {
+            'Medicine and Surgery (MBBS)': 'MBB', 'Nursing Science': 'NUR', 'Pharmacy': 'PHA', 'Medical Laboratory Science': 'MLS',
+            'Radiography / Medical Imaging': 'RAD', 'Physiotherapy': 'PHY', 'Dentistry': 'DEN', 'Public Health': 'PUH',
+            'Nutrition and Dietetics': 'NUT', 'Anatomy': 'ANA', 'Physiology': 'PHY', 'Biochemistry': 'BIO', 'Health Information Management': 'HIM',
+            'Environmental Health Science': 'EHS', 'Optometry': 'OPT', 'Community Health / Primary Health Care': 'CHC', 'Veterinary Medicine': 'VET',
+            'Electrical/Electronic Technology': 'EET', 'Mechanical/Production Technology': 'MPT', 'Building Technology': 'BLD',
+            'Civil Technology': 'CIV', 'Computer Science / Information Technology': 'CSI', 'Industrial Technology': 'IND',
+            'Automobile Technology': 'AUT', 'Welding and Fabrication Technology': 'WFT', 'Renewable Energy Technology': 'RET',
+            'Telecommunication Technology': 'TEL', 'Cybersecurity': 'CYS', 'Information Technology': 'IT', 'Artificial Intelligence': 'AIT',
+            'Software Engineering': 'SOE', 'Data Science & Analysis': 'DSA', 'Machine Learning': 'MAL', 'Web Development': 'WEB',
+            'Business Administration': 'BUS', 'Entrepreneurship & Innovation': 'ENT', 'Finance & Investment': 'FIN', 'Accounting': 'ACC',
+            'Marketing (Digital Marketing)': 'MKT', 'Economics': 'ECO', 'E-commerce & Dropshipping': 'ECOM', 'Project Management': 'PJM',
+            'Law / Shari’a': 'LAW', 'Political Science / International Relations': 'POL', 'Psychology': 'PSY', 'Sociology / Social Work': 'SOC',
+            'Linguistics / Translation': 'LIN', 'Mass Communication / Journalism': 'MAC', 'Education / Teaching / Curriculum Development': 'EDU',
+            'Graphic Design / UI-UX Design': 'GDS', 'Video Production / Film & Media': 'VPM', 'Animation / Game Design': 'AGD',
+            'Photography & Editing': 'PHE', 'Music Production / Sound Engineering': 'MPSE'
+        };
+
+        const translations = {
+            ha: {
+                'welcome-title': 'Barka da zuwa JAMI\'AR IHAME', 'ihame-meaning': '(Ingantacciyar Hausa A Maimakon Englishi)',
+                'welcome-text': 'Wannan itace Dandamali na farka Dake koyar da ilimummuka na zamani masu zurfin da Hausa bayan kammala karatu sai aba dalibi takardar kammala karatu.',
+                'register-btn': 'Shiga yin Register', 'login-prompt': 'Tuni kana da asusu? <a href="#" onclick="showPage(\'login-page\')">Shiga</a>',
+                'login-title': 'Shiga Asusu', 'login-btn': 'Shiga', 'register-prompt': 'Baka da asusu? <a href="#" onclick="showPage(\'register-page\')">Yi Rajista</a>',
+                'register-title': 'Barka da zuwa JAMI\'AR IHAME', 'register-subtitle': 'Yi Rajista don fara karatu', 'select-faculty': 'Zaɓi Faculty',
+                'select-dept': 'Zaɓi Department', 'selected-course-title': 'Darasi da ka zaɓa', 'progress-text': 'An kammala: 0%', 'courses-list-btn': 'Darussa',
+                'start-learning-btn': 'Fara Karatu', 'certificate-btn': 'Shaidar Kammalawa', 'help-center-text': 'Help Center', 'profile-title': 'Bayanan ka',
+                'profile-regno-label': 'Reg. No:', 'profile-name-label': 'Suna:', 'profile-email-label': 'Email:', 'profile-faculty-label': 'Faculty:',
+                'profile-department-label': 'Department:', 'profile-level-label': 'Level:', 'all-courses-title': 'Dukkan Darussa',
+                'modules-page-title': 'Modules na Darasi', 'prev-btn': 'Baya', 'next-btn': 'Gaba', 'certificate-title': 'Shaidar Kammalawa',
+                'congrats-message': 'Taya murna!', 'certificate-payment-text': 'Ka kammala dukkan modules na darasin ka.', 'download-text': 'Ka cancanci sauke shaidar kammalawar ka.',
+                'download-btn': 'Sauke Certificate', 'settings-title': 'Saituna', 'dark-mode-label': 'Yanayin Gani (Dark Mode):', 'language-label': 'Harshe',
+                'input-name': 'Cikakken Sunan ka', 'input-email': 'Saka Email', 'input-password': 'Kalmar sirri',
+                'daily-reminder-label': 'Tunatarwa ta yau da kullun', 'set-reminder-btn': 'Saita', 'share-link-label': 'Raba dandalin IHAME', 'share-btn': 'Raba',
+                'privacy-policy-label': 'Dokokin Sirri', 'view-btn': 'Duba', 'delete-account-label': 'Share Account', 'delete-btn': 'Share',
+                'logout-btn': 'Fita', 'distinction': 'Distinction', 'upper-credit': 'Upper Credit', 'lower-credit': 'Lower Credit', 'pass': 'An ci jarrabawa',
+                'fail': 'An kasa', 'display-title': 'Display', 'font-size-label': 'Girman Rubutu:', 'font-style-label': 'Nau\'in Rubutu:',
+                'brightness-level-label': 'Hasken Allo:', 'wallpaper-label': 'Hoton Bango', 'change-btn': 'Canza', 'daily-quiz-title': 'Jarabawa na Kullum',
+                'daily-quiz-btn': 'Jarabawa na Kullum', 'percentage-label': 'Kashi:', 'completed-modules-label': 'Modules da aka kammala:',
+                'remember-me': 'Tuna ni a wannan na\'ura', 'admin-login-prompt': 'Shiga a matsayin Admin', 'admin-login-title': 'Admin Login',
+                'admin-title': 'Admin Dashboard', 'student-list-title': 'Jerin Dalibai', 'table-header-name': 'Suna', 'table-header-regno': 'Lambar Rajista',
+                'table-header-action': 'Aiki', 'view-details-btn': 'Duba Bayanai', 'student-details-title': 'Bayanan Dalibi',
+                'quiz-already-taken': 'Ka riga ka yi jarabawar yau. Ka dawo gobe.', 'input-regno': 'Lambar Rajista (Reg. No.)',
+                'edit-profile-btn': 'Gyara Bayanai', 'save-profile-btn': 'Ajiye Canje-Canje', 'download-text-certificate': 'Lambar rajistarka ta kare bayan an sauke takardar. Da fatan za a sake yin rajista don ci gaba da karatu.',
+                'payment-info': 'Bayan rajista, za a ba ku cikakkun bayanan biyan kuɗi domin samun lambar rajista.', 'approve-payment': 'Amince Biya',
+                'reject-payment': 'Ƙi Biya', 'whatsapp-btn': 'Samun Lambar register', 'delete-student-btn': 'Share Dalibi', 'certificate-status': 'Hali:',
+                'continue-btn': 'Ci gaba', 'save-modules-btn': 'Ajiye zaɓin'
+            },
+            en: {
+                'welcome-title': 'Welcome to JAMI\'AR IHAME', 'ihame-meaning': '(Improved Hausa Instead of English)',
+                'welcome-text': 'This is the first platform that teaches modern sciences deeply in Hausa and issues certificates upon completion.',
+                'register-btn': 'Register', 'login-prompt': 'Already have an account? <a href="#" onclick="showPage(\'login-page\')">Login</a>',
+                'login-title': 'Login', 'login-btn': 'Login', 'register-prompt': 'Don\'t have an account? <a href="#" onclick="showPage(\'register-page\')">Register</a>',
+                'register-title': 'Welcome to JAMI\'AR IHAME', 'register-subtitle': 'Register to start learning', 'select-faculty': 'Select Faculty',
+                'select-dept': 'Select Department', 'selected-course-title': 'Selected Course', 'progress-text': 'Completed: 0%', 'courses-list-btn': 'Courses',
+                'start-learning-btn': 'Start Learning', 'certificate-btn': 'Completion Certificate', 'help-center-text': 'Help Center',
+                'profile-title': 'Your Profile', 'profile-regno-label': 'Reg. No:', 'profile-name-label': 'Name:', 'profile-email-label': 'Email:',
+                'profile-faculty-label': 'Faculty:', 'profile-department-label': 'Department:', 'profile-level-label': 'Level:', 'all-courses-title': 'All Courses',
+                'modules-page-title': 'Course Modules', 'prev-btn': 'Previous', 'next-btn': 'Next', 'certificate-title': 'Completion Certificate',
+                'congrats-message': 'Congratulations!', 'certificate-payment-text': 'You have completed all modules.', 'download-text': 'You are eligible to download your certificate.',
+                'download-btn': 'Download Certificate', 'settings-title': 'Settings', 'dark-mode-label': 'Dark Mode:', 'language-label': 'Language',
+                'input-name': 'Enter Your Full Name', 'input-email': 'Enter Email', 'input-password': 'Enter Password',
+                'daily-reminder-label': 'Daily Reminder', 'set-reminder-btn': 'Set', 'share-link-label': 'Share IHAME Platform', 'share-btn': 'Share',
+                'privacy-policy-label': 'Privacy Policy', 'view-btn': 'View', 'delete-account-label': 'Delete Account', 'delete-btn': 'Delete',
+                'logout-btn': 'Logout', 'distinction': 'Distinction', 'upper-credit': 'Upper Credit', 'lower-credit': 'Lower Credit', 'pass': 'Passed',
+                'fail': 'Failed', 'display-title': 'Display', 'font-size-label': 'Font Size:', 'font-style-label': 'Font Style:',
+                'brightness-level-label': 'Brightness Level:', 'wallpaper-label': 'Wallpaper', 'change-btn': 'Change', 'daily-quiz-title': 'Daily Quiz',
+                'daily-quiz-btn': 'Daily Quiz', 'percentage-label': 'Percentage:', 'completed-modules-label': 'Completed Modules:',
+                'remember-me': 'Remember me on this device', 'admin-login-prompt': 'Login as Admin', 'admin-login-title': 'Admin Login',
+                'admin-title': 'Admin Dashboard', 'student-list-title': 'Student List', 'table-header-name': 'Name', 'table-header-regno': 'Reg. No.',
+                'table-header-action': 'Action', 'view-details-btn': 'View Details', 'student-details-title': 'Student Details',
+                'quiz-already-taken': 'You have already taken the daily quiz. Come back tomorrow.', 'input-regno': 'Registration Number (Reg. No.)',
+                'edit-profile-btn': 'Edit Profile', 'save-profile-btn': 'Save Changes', 'download-text-certificate': 'Your registration number has expired upon certificate download. Please re-register to continue your studies.',
+                'payment-info': 'After registration, you will receive payment details to get your registration number.', 'approve-payment': 'Approve Payment',
+                'reject-payment': 'Reject Payment', 'whatsapp-btn': 'Get Registration Number', 'delete-student-btn': 'Delete Student', 'certificate-status': 'Status:',
+                'continue-btn': 'Continue', 'save-modules-btn': 'Save Selection'
+            }
+        };
+
+        const facultiesData = {
+            'Science': { name: 'Faculty of Science (Kimiya)', departments: [
+                { id: '1', title: 'Medicine and Surgery (MBBS)' }, { id: '2', title: 'Nursing Science' }, { id: '3', title: 'Pharmacy' },
+                { id: '4', title: 'Medical Laboratory Science' }, { id: '5', title: 'Radiography / Medical Imaging' }, { id: '6', title: 'Physiotherapy' },
+                { id: '7', title: 'Dentistry' }, { id: '8', title: 'Public Health' }, { id: '9', title: 'Nutrition and Dietetics' },
+                { id: '10', title: 'Anatomy' }, { id: '11', title: 'Physiology' }, { id: '12', title: 'Biochemistry' },
+                { id: '13', title: 'Health Information Management' }, { id: '14', title: 'Environmental Health Science' },
+                { id: '15', title: 'Optometry' }, { id: '16', title: 'Community Health / Primary Health Care' }, { id: '17', title: 'Veterinary Medicine' }]
+            },
+            'Technology': { name: 'Faculty of Technology (Fasaha)', departments: [
+                { id: '18', title: 'Electrical/Electronic Technology' }, { id: '19', title: 'Mechanical/Production Technology' }, { id: '20', title: 'Building Technology' },
+                { id: '21', title: 'Civil Technology' }, { id: '22', title: 'Computer Science / Information Technology' }, { id: '23', title: 'Industrial Technology' },
+                { id: '24', title: 'Automobile Technology' }, { id: '25', title: 'Welding and Fabrication Technology' }, { id: '26', title: 'Renewable Energy Technology' },
+                { id: '27', title: 'Telecommunication Technology' }, { id: '48', title: 'Cybersecurity' }, { id: '49', title: 'Information Technology' },
+                { id: '50', title: 'Artificial Intelligence' }, { id: '51', title: 'Software Engineering' }, { id: '52', title: 'Data Science & Analysis' },
+                { id: '53', title: 'Machine Learning' }, { id: '54', title: 'Web Development' }]
+            },
+            'Business': { name: 'Faculty of Business (Kasuwanci)', departments: [
+                { id: '28', title: 'Business Administration' }, { id: '29', title: 'Entrepreneurship & Innovation' }, { id: '30', title: 'Finance & Investment' },
+                { id: '31', title: 'Accounting' }, { id: '32', title: 'Marketing (Digital Marketing)' }, { id: '33', title: 'Economics' },
+                { id: '34', title: 'E-commerce & Dropshipping' }, { id: '35', title: 'Project Management' }]
+            },
+            'Arts': { name: 'Faculty of Arts (Arts)', departments: [
+                { id: '36', title: 'Law / Shari’a' }, { id: '37', title: 'Political Science / International Relations' }, { id: '38', title: 'Psychology' },
+                { id: '39', title: 'Sociology / Social Work' }, { id: '40', title: 'Linguistics / Translation' }, { id: '41', title: 'Mass Communication / Journalism' },
+                { id: '42', title: 'Education / Teaching / Curriculum Development' }]
+            },
+            'Skills': { name: 'Faculty of Special Skills (Sana\'o\'i)', departments: [
+                { id: '43', title: 'Graphic Design / UI-UX Design' }, { id: '44', title: 'Video Production / Film & Media' }, { id: '45', title: 'Animation / Game Design' },
+                { id: '46', title: 'Photography & Editing' }, { id: '47', title: 'Music Production / Sound Engineering' }]
+            }
+        };
+
+        const dailyQuizzes = [
+            { question: "Wani yare ne ake amfani dashi a Najeriya?", options: ["Yoruba", "Igbo", "Hausa", "Dukansu"], answer: "Dukansu" },
+            { question: "Menene babban birnin jihar Kaduna?", options: ["Kaduna", "Kano", "Abuja", "Lagos"], answer: "Kaduna" },
+            { question: "Wane ne ya rubuta 'Tafiya Mabudin Ilmi'?", options: ["Usman Dan Fodio", 'Sir Ahmadu Bello', "Abubakar Imam", "Aminu Kano"], answer: "Abubakar Imam" }
+        ];
+
+        const modulesContent = {
+            'computer-science': {
+                level100: {
+                    semester1: Array.from({ length: 15 }, (_, i) => ({ title: `100 Level Semester 1 - Module ${i + 1}`, content: `Wannan shine darasi na ${i + 1} na zango na farko.` })),
+                    semester2: Array.from({ length: 13 }, (_, i) => ({ title: `100 Level Semester 2 - Module ${i + 1}`, content: `Wannan shine darasi na ${i + 1} na zango na biyu.` }))
+                },
+                level200: {
+                    semester1: Array.from({ length: 15 }, (_, i) => ({ title: `200 Level Semester 1 - Module ${i + 1}`, content: `Wannan shine darasi na ${i + 1} na 200 Level zango na farko.` })),
+                    semester2: Array.from({ length: 13 }, (_, i) => ({ title: `200 Level Semester 2 - Module ${i + 1}`, content: `Wannan shine darasi na ${i + 1} na 200 level zango na biyu.` }))
+                }
+            }
+        };
+        
+        function showPage(pageId) {
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            if (pageId === 'dashboard-page' && currentUser) updateDashboard();
+            if (pageId === 'admin-page' && currentUser.role === 'admin') loadAdminDashboard();
+            if (pageId === 'profile-page' && currentUser) displayProfile();
+            if (pageId === 'courses-list-page') loadCoursesList();
+            if (pageId === 'modules-page' && currentUser) loadModules();
+            if (pageId === 'notifications-page' && currentUser) loadNotifications();
+            if (pageId === 'module-management-page' && currentUser.role === 'admin') loadModuleManagement();
+            if (pageId === 'certificate-page' && currentUser) {
+                 const course = currentUser.courses[0];
+                 const completedModules = course.courses.reduce((sum, c) => sum + c.semester1.completedModules + c.semester2.completedModules, 0);
+                 const progressPercent = Math.round((completedModules / TOTAL_COURSE_MODULES) * 100);
+                 
+                 document.getElementById('certificate-regno').textContent = currentUser.regNo;
+                 document.getElementById('certificate-student-name').textContent = currentUser.name;
+                 document.getElementById('certificate-department').textContent = currentUser.departmentTitle;
+                 document.getElementById('certificate-date').textContent = new Date().toLocaleDateString('ha-NG', { 
+                     year: 'numeric', 
+                     month: 'long', 
+                     day: 'numeric' 
+                 });
+            }
+            if (pageId === 'department-chat-page') loadDepartmentChatOptions();
+        }
+
+        function openWhatsApp() {
+            const phoneNumber = "2349074765785";
+            const message = "Ina son samun lambar rajista don Jami'ar IHAME";
+            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function generateRegNo(departmentCode) {
+            const currentYear = new Date().getFullYear().toString().substr(-2);
+            let lastStudentId = 0;
+            const departmentUsers = allUsers.filter(u => u.regNo && u.regNo.includes(`/${departmentCode}/`));
+            if (departmentUsers.length > 0) {
+                lastStudentId = Math.max(...departmentUsers.map(u => parseInt(u.regNo.split('/')[3], 10)));
+            }
+            const nextStudentId = (lastStudentId + 1).toString().padStart(4, '0');
+            return `IHAME/${currentYear}/${departmentCode}/${nextStudentId}`;
+        }
+        
+        function populateFaculties() {
+            const facultySelect = document.getElementById('reg-faculty');
+            for (const faculty in facultiesData) {
+                const option = document.createElement('option');
+                option.value = faculty;
+                option.textContent = facultiesData[faculty].name;
+                facultySelect.appendChild(option);
+            }
+            
+            const quizDeptSelect = document.getElementById('quiz-dept');
+            for (const faculty in facultiesData) {
+                facultiesData[faculty].departments.forEach(dept => {
+                    const option = document.createElement('option');
+                    option.value = dept.title;
+                    option.textContent = dept.title;
+                    quizDeptSelect.appendChild(option);
+                });
+            }
+        }
+
+        function populateDepartments() {
+            const faculty = document.getElementById('reg-faculty').value;
+            const deptSelect = document.getElementById('reg-department');
+            deptSelect.innerHTML = '<option value="">Zaɓi Department</option>';
+            if (faculty) {
+                deptSelect.disabled = false;
+                facultiesData[faculty].departments.forEach(dept => {
+                    const option = document.createElement('option');
+                    option.value = dept.title;
+                    option.textContent = dept.title;
+                    deptSelect.appendChild(option);
+                });
+            } else {
+                deptSelect.disabled = true;
+            }
+        }
+
+        function registerUser() {
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const faculty = document.getElementById('reg-faculty').value;
+            const departmentTitle = document.getElementById('reg-department').value;
+
+            if (!name || !email || !password || !faculty || !departmentTitle) {
+                alert('Da fatan za a cika dukkan filaye.');
+                return;
+            }
+
+            const departmentCode = departmentsShortcuts[departmentTitle];
+            if (!departmentCode) {
+                alert('An zaɓi wani sashe mara inganci. Da fatan za a sake zaɓa.');
+                return;
+            }
+
+            const pendingRegistration = { name, email, password, faculty, departmentTitle, departmentCode, date: new Date().toLocaleString() };
+            pendingRegistrations.push(pendingRegistration);
+            localStorage.setItem('pendingRegistrations', JSON.stringify(pendingRegistrations));
+            
+            alert('An yi rajista cikin nasara! Za a tuntube ku don biyan kuɗi da samun lambar rajista.');
+            showPage('login-page');
+        }
+
+        function loginUser() {
+            const regNo = document.getElementById('login-regno').value.toUpperCase();
+            const password = document.getElementById('login-password').value;
+            const rememberMe = document.getElementById('remember-me-checkbox').checked;
+
+            const user = allUsers.find(u => u.regNo === regNo && u.password === password && u.role === 'user');
+
+            if (user) {
+                if (user.status === 'suspended') {
+                    alert('An dakatar da asusunka. Tuntuɓi admin.');
+                    return;
+                }
+                currentUser = user;
+                
+                userActivity[currentUser.regNo] = { lastLogin: new Date().toISOString(), status: 'active' };
+                localStorage.setItem('userActivity', JSON.stringify(userActivity));
+                
+                if (rememberMe) {
+                    localStorage.setItem('rememberedUser', JSON.stringify({ regNo: user.regNo, password: user.password }));
+                } else {
+                    localStorage.removeItem('rememberedUser');
+                }
+                showPage('dashboard-page');
+            } else {
+                alert('Lambar rajista ko kalmar sirri ba daidai ba ce.');
+            }
+        }
+
+        function loginAdmin() {
+            const email = document.getElementById('admin-email').value;
+            const password = document.getElementById('admin-password').value;
+            
+            if (ADMIN_CREDENTIALS[email] && ADMIN_CREDENTIALS[email] === password) {
+                currentUser = { role: 'admin', email: email, name: 'Admin' };
+                showPage('admin-page');
+            } else {
+                alert('Email ko kalmar sirri ba daidai ba ce.');
+            }
+        }
+
+        function updateDashboard() {
+            if (currentUser && currentUser.role !== 'admin') {
+                welcomeMessage.textContent = `${translations[currentLang]['welcome-title']}, ${currentUser.name}!`;
+                selectedCourseName.textContent = currentUser.departmentTitle;
+                updateProgress();
+                translatePage(currentLang);
+                updateNotificationBadge();
+                adminBtn.style.display = 'none';
+            } else if (currentUser && currentUser.role === 'admin') {
+                adminBtn.style.display = 'block';
+            }
+        }
+
+        function updateProgress() {
+            if (currentUser && currentUser.courses.length > 0) {
+                const course = currentUser.courses[0];
+                 if (!course.courses) {
+                    // Legacy user data structure fix
+                    course.courses = [
+                        { level: '100', semester1: course.semester1, semester2: course.semester2 },
+                        { level: '200', semester1: { completedModules: 0, modules: [] }, semester2: { completedModules: 0, modules: [] } }
+                    ];
+                }
+                const completedModules = course.courses.reduce((sum, c) => sum + (c.semester1.completedModules || 0) + (c.semester2.completedModules || 0), 0);
+                const progressPercent = Math.round((completedModules / TOTAL_COURSE_MODULES) * 100);
+                
+                progressBar.style.width = `${progressPercent}%`;
+                document.getElementById('percentage-display').textContent = `${progressPercent}%`;
+                progressText.textContent = `${translations[currentLang]['progress-text'].split(':')[0]}: ${progressPercent}%`;
+                
+                modulePercentageDisplay.textContent = `${progressPercent}%`;
+                completedModulesCount.textContent = `${completedModules} / ${TOTAL_COURSE_MODULES}`;
+                certificateStatusText.textContent = `${progressPercent}%`;
+
+                certificateBtn.classList.toggle('disabled', progressPercent < 100);
+            }
+        }
+
+        function loadModuleSelection() {
+            selectedLevel = document.getElementById('level-select').value;
+            selectedSemester = document.getElementById('semester-select').value;
+            
+            if (!selectedLevel || !selectedSemester) {
+                alert('Da fatan za a zaɓi level da semester.');
+                return;
+            }
+            
+            moduleSelectTitle.textContent = `Zaɓi Modules - ${selectedLevel} Level, ${selectedSemester === 'semester1' ? 'Semester 1' : 'Semester 2'}`;
+            
+            const modules = modulesContent['computer-science'][`level${selectedLevel}`][selectedSemester];
+            moduleSelectionList.innerHTML = '';
+            
+            modules.forEach((module, index) => {
+                const moduleItem = document.createElement('div');
+                moduleItem.className = 'module-select-item';
+                moduleItem.innerHTML = `
+                    <input type="checkbox" class="module-checkbox" id="module-${index}" value="${index}">
+                    <label for="module-${index}">${module.title}</label>
+                `;
+                moduleSelectionList.appendChild(moduleItem);
+            });
+            
+            showPage('module-select-page');
+        }
+        
+        function saveSelectedModules() {
+            const selectedModules = [];
+            const checkboxes = document.querySelectorAll('.module-checkbox:checked');
+            
+            checkboxes.forEach(checkbox => {
+                selectedModules.push(parseInt(checkbox.value));
+            });
+            
+            if (selectedModules.length === 0) {
+                alert('Da fatan za a zaɓi aƙalla module ɗaya.');
+                return;
+            }
+            
+            // Save selected modules to user data
+            if (!currentUser.courses[0].courses) {
+                currentUser.courses[0].courses = [
+                    { level: '100', semester1: { completedModules: 0, modules: [] }, semester2: { completedModules: 0, modules: [] } },
+                    { level: '200', semester1: { completedModules: 0, modules: [] }, semester2: { completedModules: 0, modules: [] } }
+                ];
+            }
+            
+            const levelIndex = currentUser.courses[0].courses.findIndex(c => c.level === selectedLevel);
+            currentUser.courses[0].courses[levelIndex][selectedSemester].modules = selectedModules;
+            
+            localStorage.setItem('allUsers', JSON.stringify(allUsers));
+            alert('An ajiye zaɓin modules.');
+            showPage('modules-page');
+        }
+
+        function loadModules() {
+            modulesList.innerHTML = '';
+            if (!currentUser.courses || currentUser.courses.length === 0) return;
+            const mainCourse = currentUser.courses[0];
+
+            ['100', '200'].forEach(level => {
+                const levelData = modulesContent['computer-science'][`level${level}`];
+                const userLevelProgress = mainCourse.courses.find(c => c.level === level);
+
+                const levelHeader = document.createElement('h3');
+                levelHeader.textContent = `${level} Level`;
+                modulesList.appendChild(levelHeader);
+
+                ['semester1', 'semester2'].forEach(semesterKey => {
+                    const semesterNum = semesterKey === 'semester1' ? 1 : 2;
+                    
+                    const semesterHeader = document.createElement('h4');
+                    semesterHeader.textContent = `Zango ${semesterKey === 'semester1' ? 'na Farko' : 'na Biyu'}`;
+                    modulesList.appendChild(semesterHeader);
+
+                    levelData[semesterKey].forEach((module, index) => {
+                        // Check if this module is selected by the user
+                        const isSelected = userLevelProgress[semesterKey].modules.includes(index);
+                        
+                        if (isSelected) {
+                            const moduleItem = document.createElement('div');
+                            moduleItem.classList.add('module-item');
+                            const isCompleted = userLevelProgress[semesterKey].completedModules > index;
+                            const isLocked = userLevelProgress[semesterKey].completedModules < index;
+
+                            if (isLocked) moduleItem.classList.add('locked');
+                            
+                            const checkmark = isCompleted ? `<span class="module-checkmark">✔️</span>` : '';
+                            moduleItem.innerHTML = `<div class="module-title-wrapper">${module.title} ${checkmark}</div>`;
+                            
+                            if (!isLocked) {
+                                moduleItem.onclick = () => {
+                                    currentModuleIndex = index;
+                                    loadModuleContent(semesterKey, `level${level}`);
+                                };
+                            }
+                            modulesList.appendChild(moduleItem);
+                        }
+                    });
+                });
+            });
+            translatePage(currentLang);
+        }
+
+        function loadModuleContent(semester, level) {
+            const mainCourse = currentUser.courses[0];
+            const levelNum = level.replace('level', '');
+            const activeLevel = mainCourse.courses.find(c => c.level === levelNum);
+            const activeSemester = activeLevel[semester];
+            const module = modulesContent['computer-science'][level][semester][currentModuleIndex];
+            
+            learningPageTitle.textContent = module.title;
+            moduleContent.innerHTML = `<p>${module.content}</p>`;
+            
+            if (currentModuleIndex >= activeSemester.completedModules) {
+                 activeSemester.completedModules = currentModuleIndex + 1;
+                 localStorage.setItem('allUsers', JSON.stringify(allUsers));
+            }
+            updateModuleProgress();
+            showPage('learning-page');
+            document.getElementById('prev-lesson-btn').disabled = currentModuleIndex === 0;
+            document.getElementById('next-lesson-btn').disabled = currentModuleIndex === (modulesContent['computer-science'][level][semester].length - 1);
+        }
+
+        function updateModuleProgress() {
+            const course = currentUser.courses[0];
+            const completedModules = course.courses.reduce((sum, c) => sum + c.semester1.completedModules + c.semester2.completedModules, 0);
+            const percentage = (completedModules / TOTAL_COURSE_MODULES) * 100;
+            
+            moduleProgressFill.style.width = `${percentage}%`;
+            currentModulePercentage.textContent = `${percentage.toFixed(0)}%`;
+            updateProgress();
+        }
+
+        function loadDailyQuiz() {
+            dailyQuizContent.innerHTML = '';
+            const today = new Date().toLocaleDateString();
+            if (currentUser.dailyQuizHistory && currentUser.dailyQuizHistory.some(q => q.date === today)) {
+                dailyQuizContent.innerHTML = `<p data-lang="quiz-already-taken">${translations[currentLang]['quiz-already-taken']}</p>`;
+                return;
+            }
+            const deptQuizzes = departmentQuizzes[currentUser.departmentTitle] || dailyQuizzes;
+            let questionsHTML = '';
+            deptQuizzes.forEach((quiz, index) => {
+                questionsHTML += `<div><h3>${index + 1}. ${quiz.question}</h3>${quiz.options.map((option, optIndex) => `<div class="quiz-option" data-question-index="${index}" data-option="${optIndex}">${option}</div>`).join('')}</div>`;
+            });
+            dailyQuizContent.innerHTML = questionsHTML;
+            const submitBtn = document.createElement('button');
+            submitBtn.textContent = 'Submit Quiz';
+            submitBtn.onclick = submitDailyQuiz;
+            dailyQuizContent.appendChild(submitBtn);
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.addEventListener('click', (e) => {
+                    const questionIndex = e.target.getAttribute('data-question-index');
+                    document.querySelectorAll(`.quiz-option[data-question-index="${questionIndex}"]`).forEach(opt => opt.classList.remove('selected'));
+                    e.target.classList.add('selected');
+                });
+            });
+            translatePage(currentLang);
+        }
+        
+        function submitDailyQuiz() {
+            let correctAnswers = 0;
+            const today = new Date().toLocaleDateString();
+            const deptQuizzes = departmentQuizzes[currentUser.departmentTitle] || dailyQuizzes;
+            document.querySelectorAll('.quiz-option.selected').forEach(option => {
+                const questionIndex = option.getAttribute('data-question-index');
+                const selectedOption = deptQuizzes[questionIndex].options[option.getAttribute('data-option')];
+                if (selectedOption === deptQuizzes[questionIndex].answer) correctAnswers++;
+            });
+            if (!currentUser.dailyQuizHistory) currentUser.dailyQuizHistory = [];
+            currentUser.dailyQuizHistory.push({ date: today, score: correctAnswers, total: deptQuizzes.length });
+            localStorage.setItem('allUsers', JSON.stringify(allUsers));
+            dailyQuizContent.innerHTML = `<div class="quiz-result"><p>Ka amsa ${correctAnswers} daidai a cikin ${deptQuizzes.length}.</p><button onclick="showPage('dashboard-page')">Komawa Dashboard</button></div>`;
+        }
+
+        function displayProfile() {
+            profileRegnoDisplay.textContent = currentUser.regNo;
+            profileNameDisplay.textContent = currentUser.name;
+            profileEmailDisplay.textContent = currentUser.email;
+            profileFacultyDisplay.textContent = facultiesData[currentUser.faculty].name;
+            profileDepartmentDisplay.textContent = currentUser.departmentTitle;
+            profileLevelDisplay.textContent = currentUser.level;
+            profilePicPreview.src = currentUser.photoUrl || 'https://via.placeholder.com/100';
+            document.getElementById('edit-name').value = currentUser.name;
+        }
+
+        function toggleEditMode() {
+            document.getElementById('profile-display-fields').classList.toggle('active');
+            document.getElementById('profile-edit-fields').classList.toggle('active');
+        }
+
+        function saveProfile() {
+            currentUser.name = document.getElementById('edit-name').value;
+            localStorage.setItem('allUsers', JSON.stringify(allUsers));
+            displayProfile();
+            toggleEditMode();
+            alert('An ajiye canje-canje.');
+        }
+
+        function previewProfilePic(event) {
+            const reader = new FileReader();
+            reader.onload = function(){
+                profilePicPreview.src = reader.result;
+                currentUser.photoUrl = reader.result;
+                localStorage.setItem('allUsers', JSON.stringify(allUsers));
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+        
+        function loadCoursesList() {
+            const coursesListContent = document.getElementById('courses-list-content');
+            coursesListContent.innerHTML = '';
+            for (const faculty in facultiesData) {
+                const facultyTitle = document.createElement('h3');
+                facultyTitle.textContent = facultiesData[faculty].name;
+                coursesListContent.appendChild(facultyTitle);
+                facultiesData[faculty].departments.forEach(dept => {
+                    const courseItem = document.createElement('div');
+                    courseItem.classList.add('course-item');
+                    courseItem.textContent = dept.title;
+                    courseItem.onclick = () => alert(`Ba za ka iya canza darasi ba. Zaɓaɓɓen darasinka shine ${currentUser.departmentTitle}.`);
+                    coursesListContent.appendChild(courseItem);
+                });
+            }
+            translatePage(currentLang);
+        }
+
+        function loadDepartmentChatOptions() {
+            departmentChatSelect.innerHTML = '<option value="">Zaɓi Department</option>';
+            
+            for (const faculty in facultiesData) {
+                facultiesData[faculty].departments.forEach(dept => {
+                    const option = document.createElement('option');
+                    option.value = dept.title;
+                    option.textContent = dept.title;
+                    departmentChatSelect.appendChild(option);
+                });
+            }
+        }
+        
+        function loadDepartmentChat() {
+            const selectedDept = departmentChatSelect.value;
+            if (!selectedDept) return;
+            
+            if (!departmentChats[selectedDept]) {
+                departmentChats[selectedDept] = [];
+            }
+            
+            displayChatMessages(selectedDept);
+        }
+        
+        function displayChatMessages(dept) {
+            const messages = departmentChats[dept] || [];
+            departmentChatMessages.innerHTML = '';
+            
+            if (messages.length === 0) {
+                departmentChatMessages.innerHTML = '<p>Babu saƙonni a wannan department din tukuna. Ku fara tattaunawa!</p>';
+                return;
+            }
+            
+            messages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${msg.sender === currentUser.regNo ? 'my-message' : 'their-message'}`;
+                
+                messageDiv.innerHTML = `
+                    <div class="message-sender">${msg.sender === currentUser.regNo ? 'Ku' : msg.senderName}</div>
+                    <div class="message-text">${msg.text}</div>
+                    <div class="message-time">${msg.time}</div>
+                `;
+                
+                departmentChatMessages.appendChild(messageDiv);
+            });
+            
+            departmentChatMessages.scrollTop = departmentChatMessages.scrollHeight;
+        }
+        
+        function sendChatMessage() {
+            const messageText = chatMessageInput.value.trim();
+            const selectedDept = departmentChatSelect.value;
+            
+            if (!selectedDept) {
+                alert('Da fatan za a zaɓi department din ku fara.');
+                return;
+            }
+            
+            if (!messageText) {
+                alert('Da fatan za a rubuta saƙo.');
+                return;
+            }
+            
+            if (!departmentChats[selectedDept]) {
+                departmentChats[selectedDept] = [];
+            }
+            
+            const newMessage = {
+                text: messageText,
+                sender: currentUser.regNo,
+                senderName: currentUser.name,
+                time: new Date().toLocaleTimeString()
+            };
+            
+            departmentChats[selectedDept].push(newMessage);
+            localStorage.setItem('departmentChats', JSON.stringify(departmentChats));
+            
+            chatMessageInput.value = '';
+            displayChatMessages(selectedDept);
+        }
+
+        darkModeToggle.addEventListener('change', () => body.classList.toggle('dark-mode'));
+        brightnessSlider.addEventListener('input', (e) => body.style.filter = `brightness(${e.target.value})`);
+        fontSizeSelect.addEventListener('change', (e) => body.style.fontSize = e.target.value);
+        fontStyleSelect.addEventListener('change', (e) => body.style.fontFamily = e.target.value);
+
+        function setWallpaper(url) { body.style.backgroundImage = `url(${url})`; body.classList.add('wallpaper'); }
+        function showWallpaperOptions() { document.getElementById('wallpaper-options').style.display = 'grid'; }
+
+        function changeLanguage(lang) { currentLang = lang; if (currentUser) currentUser.lang = lang; translatePage(lang); }
+
+        function translatePage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang');
+                if (translations[lang] && translations[lang][key]) {
+                    if (element.placeholder) element.placeholder = translations[lang][key];
+                    else element.innerHTML = translations[lang][key];
+                }
+            });
+            if (currentUser && currentUser.role !== 'admin') {
+                welcomeMessage.textContent = `${translations[lang]['welcome-title']}, ${currentUser.name}!`;
+            }
+        }
+
+        function setDailyReminder() { alert('Ayyukan tunatarwa zai fara aiki.'); }
+        function shareLink() { navigator.clipboard.writeText(window.location.href).then(() => alert('An kwafi hanyar haɗi!')); }
+        function showPrivacyPolicy() { alert('IHAME tana mutunta sirrin masu amfani. Ba za mu taba raba bayanan ka da kowa ba.'); }
+        function deleteAccount() {
+            if (confirm('Shin da gaske kake so ka share asusunka?')) {
+                allUsers = allUsers.filter(u => u.regNo !== currentUser.regNo);
+                localStorage.setItem('allUsers', JSON.stringify(allUsers));
+                logout();
+            }
+        }
+        function logout() {
+            if (currentUser && currentUser.regNo) {
+                userActivity[currentUser.regNo] = { lastLogout: new Date().toISOString(), status: 'inactive' };
+                localStorage.setItem('userActivity', JSON.stringify(userActivity));
+            }
+            currentUser = null;
+            localStorage.removeItem('rememberedUser');
+            showPage('landing-page');
+            location.reload();
+        }
+
+        function loadAdminDashboard() {
+            studentListTable.innerHTML = '';
+            allUsers.filter(user => user.role === 'user').forEach(user => {
+                const tr = document.createElement('tr');
+                const activity = userActivity[user.regNo] || {};
+                const isActive = activity.status === 'active';
+                const statusIndicator = `<span class="activity-indicator ${isActive ? 'active-now' : 'inactive'}"></span>`;
+                tr.innerHTML = `<td>${statusIndicator} ${user.name}</td><td>${user.regNo}</td><td>
+                <button onclick="viewStudentDetails('${user.regNo}')">Duba</button>
+                <button class="delete-btn" onclick="deleteStudent('${user.regNo}')" data-lang="delete-student-btn">Share</button></td>`;
+                studentListTable.appendChild(tr);
+            });
+            totalStudentsEl.textContent = allUsers.filter(user => user.role === 'user').length;
+            loadPendingRegistrations();
+            loadDeptSelect();
+            translatePage(currentLang);
+        }
+        
+        function deleteStudent(regNo) {
+            if (confirm(`Shin da gaske kana son share dalibi mai lamba ${regNo}? Ba za'a iya dawo da bayanan ba.`)) {
+                allUsers = allUsers.filter(user => user.regNo !== regNo);
+                localStorage.setItem('allUsers', JSON.stringify(allUsers));
+                alert('An share dalibi.');
+                loadAdminDashboard();
+            }
+        }
+
+        function loadPendingRegistrations() {
+            pendingRegistrationsEl.innerHTML = pendingRegistrations.length === 0 ? '<p>Babu masu jiran biya.</p>' : '';
+            pendingRegistrations.forEach((reg, index) => {
+                const pendingUserDiv = document.createElement('div');
+                pendingUserDiv.className = 'pending-user';
+                pendingUserDiv.innerHTML = `<div class="pending-user-info"><strong>${reg.name}</strong> (${reg.departmentTitle})</div>
+                <div class="payment-actions"><button class="payment-btn" onclick="approvePayment(${index})">${translations[currentLang]['approve-payment']}</button>
+                <button class="payment-btn delete-btn" onclick="rejectPayment(${index})">${translations[currentLang]['reject-payment']}</button></div>`;
+                pendingRegistrationsEl.appendChild(pendingUserDiv);
+            });
+        }
+        
+        function approvePayment(index) {
+            const reg = pendingRegistrations[index];
+            const regNo = generateRegNo(reg.departmentCode);
+            const newUser = {
+                regNo: regNo, name: reg.name, email: reg.email, password: reg.password, faculty: reg.faculty, departmentTitle: reg.departmentTitle,
+                level: '100', status: 'active',
+                courses: [{
+                    id: 'computer-science', title: reg.departmentTitle, courses: [
+                        { level: '100', semester1: { completedModules: 0, modules: [] }, semester2: { completedModules: 0, modules: [] } },
+                        { level: '200', semester1: { completedModules: 0, modules: [] }, semester2: { completedModules: 0, modules: [] } }
+                    ]
+                }],
+                lang: 'ha', photoUrl: 'https://via.placeholder.com/100', role: 'user'
+            };
+            allUsers.push(newUser);
+            localStorage.setItem('allUsers', JSON.stringify(allUsers));
+            pendingRegistrations.splice(index, 1);
+            localStorage.setItem('pendingRegistrations', JSON.stringify(pendingRegistrations));
+            alert(`An amince da biya. Lambar rajista: ${regNo}`);
+            loadAdminDashboard();
+        }
+        
+        function rejectPayment(index) {
+            pendingRegistrations.splice(index, 1);
+            localStorage.setItem('pendingRegistrations', JSON.stringify(pendingRegistrations));
+            alert('An ƙi biya.');
+            loadPendingRegistrations();
+        }
+        
+        function loadDeptSelect() {
+            deptSelectEl.innerHTML = '<option value="">Zaɓi Department</option>';
+            const departments = new Set();
+            for (const faculty in facultiesData) {
+                facultiesData[faculty].departments.forEach(dept => departments.add(dept.title));
+            }
+            Array.from(departments).sort().forEach(dept => {
+                deptSelectEl.innerHTML += `<option value="${dept}">${dept}</option>`;
+            });
+        }
+        
+        function loadRegNumbersByDept() {
+            const dept = deptSelectEl.value;
+            regNumbersContainerEl.innerHTML = '';
+            if (!dept) return;
+            const deptUsers = allUsers.filter(user => user.departmentTitle === dept && user.role === 'user');
+            if (deptUsers.length === 0) {
+                regNumbersContainerEl.innerHTML = `<p>Babu ɗalibai a cikin ${dept}.</p>`;
+                return;
+            }
+            let html = `<h4>Lambobin Rajista na ${dept}</h4>`;
+            deptUsers.forEach(user => html += `<div class="reg-number-item">${user.regNo} - ${user.name}</div>`);
+            html += `<button class="copy-btn" onclick="copyRegNumbers('${dept}')">Kwafi Lambobin</button>`;
+            regNumbersContainerEl.innerHTML = html;
+        }
+        
+        function copyRegNumbers(dept) {
+            const deptUsers = allUsers.filter(user => user.departmentTitle === dept && user.role === 'user');
+            const regNumbersText = deptUsers.map(user => `${user.regNo} - ${user.name}`).join('\n');
+            navigator.clipboard.writeText(regNumbersText).then(() => alert('An kwafi lambobin rajista.'));
+        }
+        
+        function viewStudentDetails(regNo) {
+            const user = allUsers.find(u => u.regNo === regNo);
+            if (!user) return;
+            studentRegnoDisplay.textContent = user.regNo;
+            studentNameDisplay.textContent = user.name;
+            studentEmailDisplay.textContent = user.email;
+            studentFacultyDisplay.textContent = facultiesData[user.faculty].name;
+            studentDepartmentDisplay.textContent = user.departmentTitle;
+            studentLevelDisplay.textContent = user.level;
+            studentPicDisplay.src = user.photoUrl;
+            const course = user.courses[0];
+            const completedModules = course.courses.reduce((sum, c) => sum + c.semester1.completedModules + c.semester2.completedModules, 0);
+            studentProgressDisplay.textContent = `${Math.round((completedModules / TOTAL_COURSE_MODULES) * 100)}%`;
+            const activity = userActivity[user.regNo] || {};
+            studentStatusDisplay.innerHTML = `<span class="activity-indicator ${activity.status === 'active' ? 'active-now' : 'inactive'}"></span> ${activity.status === 'active' ? 'Active' : 'Inactive'}`;
+            showPage('student-details-page');
+        }
+        
+        function addQuizQuestion() {
+            const dept = quizDeptSelect.value;
+            const question = document.getElementById('quiz-question').value;
+            const options = Array.from(document.querySelectorAll('#quiz-options input[type="text"]')).map(input => input.value);
+            const correctAnswerIndex = document.querySelector('input[name="correct-answer"]:checked')?.value;
+            if (!dept || !question || options.some(opt => !opt) || !correctAnswerIndex) { alert('Da fatan za a cika dukkan filaye.'); return; }
+            if (!departmentQuizzes[dept]) departmentQuizzes[dept] = [];
+            departmentQuizzes[dept].push({ question, options, answer: options[correctAnswerIndex] });
+            localStorage.setItem('departmentQuizzes', JSON.stringify(departmentQuizzes));
+            alert('An ƙara tambaya.');
+        }
+        
+        function sendNotification(regNo, message) {
+            if (!message) { alert('Da fatan za a shigar da saƙo.'); return; }
+            const notification = { message, date: new Date().toLocaleString(), from: 'Admin' };
+            if (regNo === 'all') {
+                allUsers.forEach(user => {
+                    if (user.role === 'user') {
+                        if (!notifications[user.regNo]) notifications[user.regNo] = [];
+                        notifications[user.regNo].push(notification);
+                    }
+                });
+                alert('An aika sanarwa ga duka dalibai.');
+            } else {
+                if (!notifications[regNo]) notifications[regNo] = [];
+                notifications[regNo].push(notification);
+                alert('An aika sanarwa.');
+            }
+            localStorage.setItem('notifications', JSON.stringify(notifications));
+        }
+
+        function sendNotificationToAll() { sendNotification('all', document.getElementById('notification-message').value); }
+        function sendNotificationToStudent() { sendNotification(studentRegnoDisplay.textContent, document.getElementById('student-notification-message').value); }
+        
+        function loadNotifications() {
+            notificationsList.innerHTML = '';
+            const userNotifications = notifications[currentUser.regNo] || [];
+            if (userNotifications.length === 0) {
+                notificationsList.innerHTML = '<p>Babu sabbin sanarwa.</p>';
+                return;
+            }
+            userNotifications.forEach(n => {
+                notificationsList.innerHTML += `<div class="notification-item"><p>${n.message}</p><p class="notification-time">${n.date} - ${n.from}</p></div>`;
+            });
+            updateNotificationBadge(true);
+        }
+        
+        function updateNotificationBadge(markAsRead = false) {
+            if (!currentUser) return;
+            let userNotifications = notifications[currentUser.regNo] || [];
+            const unreadCount = userNotifications.filter(n => !n.read).length;
+            notificationBadge.style.display = unreadCount > 0 ? 'block' : 'none';
+            notificationBadge.textContent = unreadCount;
+            if (markAsRead) {
+                notifications[currentUser.regNo] = userNotifications.map(n => ({ ...n, read: true }));
+                localStorage.setItem('notifications', JSON.stringify(notifications));
+                updateNotificationBadge();
+            }
+        }
+        
+        function loadModuleManagement() {
+            // Implementation for module management
+        }
+        
+        function addNewModule() {
+            // Implementation for adding new modules
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            populateFaculties();
+            const rememberedUser = JSON.parse(localStorage.getItem('rememberedUser'));
+            if (rememberedUser) {
+                document.getElementById('login-regno').value = rememberedUser.regNo;
+                document.getElementById('login-password').value = rememberedUser.password;
+                document.getElementById('remember-me-checkbox').checked = true;
+                loginUser();
+            } else {
+                showPage('landing-page');
+            }
+        });
+    </script>
+</body>
+</html>
